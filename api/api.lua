@@ -265,14 +265,14 @@ function apteryx_insert(path, value, default)
         end
 
         if current_node == nil then
-                -- if the current node is leaf, then create with arguments
-                -- if the current node is intermediate node, create with no arguments
-                if rest == '' then
-                    current_name = "__"..string.gsub(current_name, "-", "_")
-                    current_node = __create_mt(path, value, default)
-                else
-                    current_node = __create_mt(nil, nil, nil)
-                end
+            -- if the current node is leaf, then create with arguments
+            -- if the current node is intermediate node, create with no arguments
+            if rest == '' then
+                current_name = "__"..string.gsub(current_name, "-", "_")
+                current_node = __create_mt(path, value, default)
+            else
+                current_node = __create_mt(nil, nil, nil)
+            end
         end -- end of if parent[current] == nil then
 
         ::continue::
