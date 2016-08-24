@@ -242,16 +242,16 @@ function apteryx_insert(path, value, default)
             goto continue
         end
 
+		-- get from parent (either a function or a table)
+		if type(parent) == "function" then
+			mt = parent(nil, nil, true)
+			current_node = mt[current_name]
+		else
+			current_node = parent[current_name]
+		end
+
         next_name, _ = splitpath(rest)
         if next_name == "*" then
-            -- get from parent (either a function or a table)
-            if type(parent) == "function" then
-                mt = parent(nil, nil, true)
-                current_node = mt[current_name]
-            else
-                current_node = parent[current_name]
-            end
-
             if current_node == nil then
                 current_node = load(string.dump(__create_function))
                 mt = setmetatable({}, __apteryx)
@@ -260,24 +260,8 @@ function apteryx_insert(path, value, default)
                 setfenv(current_node, table.join({mt = mt}, env))
             end
 
-            -- set back to the parent (either a function or a table)
-            if type(parent) == "function" then
-                mt = parent(nil, nil, true)
-                mt[current_name] = current_node
-                setfenv(parent, table.join({mt = mt}, env))
-            else
-                parent[current_name] = current_node
-            end
-            parent = current_node
             depth = depth + 1
             goto continue
-        end
-
-        if type(parent) == "function" then
-            mt = parent(nil, nil, true)
-            current_node = mt[current_name]
-        else
-            current_node = parent[current_name]
         end
 
         if current_node == nil then
@@ -289,18 +273,18 @@ function apteryx_insert(path, value, default)
                 else
                     current_node = __create_mt(nil, nil, nil)
                 end
-
-                -- set back to the parent (either a function or a table)
-                if type(parent) == "function" then
-                    mt[current_name] = current_node
-                    setfenv(parent, table.join({mt = mt}, env))
-                else
-                    parent[current_name] = current_node
-                end
         end -- end of if parent[current] == nil then
 
-        parent = current_node
         ::continue::
+		-- set back to the parent (either a function or a table)
+		if type(parent) == "function" then
+			mt = parent(nil, nil, true)
+			mt[current_name] = current_node
+			setfenv(parent, table.join({mt = mt}, env))
+		else
+			parent[current_name] = current_node
+		end
+        parent = current_node
         current_name, rest = splitpath(rest)
     end -- end of while current ~= '' do
 end
