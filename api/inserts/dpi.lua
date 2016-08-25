@@ -1,0 +1,6 @@
+apteryx_insert("/dpi/settings/enable",{["disable"]="0",["enable"]="1"},"0")
+apteryx_insert("/dpi/settings/provider",{["procera"]="procera"},nil)
+apteryx_insert("/dpi/settings/update-interval",nil,"60")
+apteryx_insert("/dpi/statistics",nil,nil)
+apteryx_insert("/dpi/state",{["unknown"]="-1",["disabled"]="0",["unlicensed"]="1",["loading"]="2",["failed"]="3",["unloading"]="4",["running"]="5"},"0")
+apteryx_insert("/dpi/version",nil,nil)

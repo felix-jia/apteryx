@@ -1,0 +1,8 @@
+apteryx_insert("/boot/config/name",nil,"flash:/default.cfg")
+apteryx_insert("/boot/config/state",{["good"]="1",["invalid"]="2",["write-error"]="3",["sync-failure"]="4",["synchronizing"]="5"},"1")
+apteryx_insert("/boot/config-backup/name",nil,nil)
+apteryx_insert("/boot/config-backup/state",{["good"]="1",["invalid"]="2",["write-error"]="3",["sync-failure"]="4",["synchronizing"]="5"},"1")
+apteryx_insert("/boot/system/name",nil,nil)
+apteryx_insert("/boot/system/state",{["good"]="1",["invalid"]="2",["write-error"]="3",["sync-failure"]="4",["synchronizing"]="5"},"1")
+apteryx_insert("/boot/system-backup/name",nil,nil)
+apteryx_insert("/boot/system-backup/state",{["good"]="1",["invalid"]="2",["write-error"]="3",["sync-failure"]="4",["synchronizing"]="5"},"1")

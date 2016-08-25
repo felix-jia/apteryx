@@ -1,0 +1,8 @@
+apteryx_insert("/ips/status",{["unset"]="0",["disabled"]="1",["loading"]="2",["running"]="3"},"0")
+apteryx_insert("/ips/version",nil,nil)
+apteryx_insert("/ips/settings/protect",{["disable"]="0",["enable"]="1"},"0")
+apteryx_insert("/ips/settings/provider",{["emerging-threats"]="emerging-threats"},nil)
+apteryx_insert("/ips/settings/update-interval",nil,"60")
+apteryx_insert("/ips/categories/*/name",nil,nil)
+apteryx_insert("/ips/categories/*/action",{["alert"]="1",["deny"]="2",["disabled"]="3"},"1")
+apteryx_insert("/ips/categories/*/valid",{["invalid"]="0",["valid"]="1"},"0")

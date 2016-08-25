@@ -1,0 +1,8 @@
+apteryx_insert("/updatable-resource/resources/*/name",nil,nil)
+apteryx_insert("/updatable-resource/resources/*/interval",nil,"60")
+apteryx_insert("/updatable-resource/resources/*/local-file",nil,"/flash/.resources/downloaded/*")
+apteryx_insert("/updatable-resource/resources/*/method",nil,"1")
+apteryx_insert("/updatable-resource/resources/*/next-update",nil,nil)
+apteryx_insert("/updatable-resource/resources/*/status",nil,nil)
+apteryx_insert("/updatable-resource/resources/*/uri",nil,nil)
+apteryx_insert("/updatable-resource/resources/*/version",nil,"-")
