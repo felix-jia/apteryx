@@ -70,22 +70,22 @@ alfred_error (lua_State *ls, int res)
     switch (res)
     {
     case LUA_ERRRUN:
-        ERROR ("LUA: %s\n", lua_tostring (ls, -1));
+        CRITICAL ("LUA: %s\n", lua_tostring (ls, -1));
         break;
     case LUA_ERRSYNTAX:
-        ERROR ("LUA: %s\n", lua_tostring (ls, -1));
+        CRITICAL ("LUA: %s\n", lua_tostring (ls, -1));
         break;
     case LUA_ERRMEM:
-        ERROR ("LUA: Memory allocation error\n");
+        CRITICAL ("LUA: Memory allocation error\n");
         break;
     case LUA_ERRERR:
-        ERROR ("LUA: Error handler error\n");
+        CRITICAL ("LUA: Error handler error\n");
         break;
     case LUA_ERRFILE:
-        ERROR ("LUA: Couldn't open file\n");
+        CRITICAL ("LUA: Couldn't open file\n");
         break;
     default:
-        ERROR ("LUA: Unknown error\n");
+        CRITICAL ("LUA: Unknown error\n");
         break;
     }
 }
@@ -168,7 +168,7 @@ provide_node_changed (const char *path)
     lua_setglobal (alfred_inst->ls, "_path");
     if ((luaL_dostring (alfred_inst->ls, script)) != 0)
     {
-        ERROR ("Lua: Failed to execute script\n");
+        ERROR ("Lua: Failed to execute provide script for path: %s\n", path);
     }
     g_list_free_full (matches, (GDestroyNotify) cb_release);
     /* The return value of luaL_dostring is the top value of the stack */
@@ -202,7 +202,7 @@ index_node_changed (const char *path)
     lua_setglobal (alfred_inst->ls, "_path");
     if ((luaL_dostring (alfred_inst->ls, script)) != 0)
     {
-        ERROR ("Lua: Failed to execute script\n");
+        ERROR ("Lua: Failed to execute index script for path: %s\n", path);
     }
     g_list_free_full (matches, (GDestroyNotify) cb_release);
 
@@ -593,7 +593,7 @@ delayed_work_add (int delay, const char *script)
     if (!found)
     {
         delayed_work = g_list_append (delayed_work, delay_script);
-        g_timeout_add (delay * SECONDS_TO_MILLI, delayed_work_process, (gpointer) delay_script);
+        g_timeout_add (delay, delayed_work_process, (gpointer) delay_script);
     }
     pthread_mutex_unlock (&delayed_work_lock);
 }
@@ -623,7 +623,7 @@ rate_limit (lua_State *ls)
         return 0;
     }
 
-    delayed_work_add (lua_tonumber (ls, 1), lua_tostring (ls, 2));
+    delayed_work_add (lua_tonumber (ls, 1) * SECONDS_TO_MILLI, lua_tostring (ls, 2));
 
     return 0;
 }
@@ -673,7 +673,7 @@ alfred_init (const char *path)
     alfred_inst = (alfred_instance) g_malloc0 (sizeof (*alfred_inst));
     if (!alfred_inst)
     {
-        ERROR ("ALFRED: No memory for alfred instance\n");
+        CRITICAL ("ALFRED: No memory for alfred instance\n");
         goto error;
     }
 
@@ -683,13 +683,13 @@ alfred_init (const char *path)
     alfred_inst->ls = luaL_newstate ();
     if (!alfred_inst->ls)
     {
-        ERROR ("XML: Failed to instantiate Lua interpreter\n");
+        CRITICAL ("XML: Failed to instantiate Lua interpreter\n");
         goto error;
     }
     luaL_openlibs (alfred_inst->ls);
     if (luaL_dostring (alfred_inst->ls, "require('api')") != 0)
     {
-        ERROR ("Lua: Failed to require('api')\n");
+        CRITICAL ("Lua: Failed to require('api')\n");
     }
 
     /* Add the rate_limit function to a Lua table so it can be called using Lua */
