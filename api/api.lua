@@ -241,6 +241,8 @@ function apteryx_insert(path, value, default)
             goto continue
         end
 
+		current_name = string.gsub(current_name, "-", "_")
+
 		-- get from parent (either a function or a table)
 		if type(parent) == "function" then
 			mt = parent(nil, nil, true)
@@ -290,64 +292,78 @@ function apteryx_insert(path, value, default)
     end -- end of while current ~= '' do
 end
 
-apteryx_insert("/system/bootloader-version")
-apteryx_insert("/system/current-software")
-apteryx_insert("/system/current-version")
-apteryx_insert("/system/build-date")
-apteryx_insert("/system/system_name")
-apteryx_insert("/system/configuration/state", {["unknown"]="0",["saved"]="1",["unsaved"]="2"}, "0")
-apteryx_insert("/system/ram/total")
-apteryx_insert("/system/ram/free")
-apteryx_insert("/system/interface/*/link-mtu")
-apteryx_insert("/system/interface/*/default-ttl")
-apteryx_insert("/system/interface/*/prefixes/*/prefix")
-apteryx_insert("/system/interface/*/wa/*/haha/*/type")
-apteryx_insert("/system/flash/total")
-apteryx_insert("/system/flash/avaiable")
 
-
-
-print('\n\n-------- test api 01 -------------')
-for k,v in pairs(apteryx) do
-    print(k,v)
+local f = io.popen("ls ./inserts")
+for mod in f:lines() do
+	name = string.gsub(mod, '.lua', '')
+	print("require "..name)
+	-- pcall(require, "inserts."..name)
+	require("inserts."..name)
 end
+print('\n\n-------- test api 00 -------------')
+print(apteryx.aaa.services)
+print(apteryx.radius)
+print(apteryx.web_control)
+print(apteryx.wireless_manager)
 
-print('\n\n-------- test api 02 -------------')
-print(apteryx.system.ram.free)
-print(apteryx.system.bootloader_version)
-print(apteryx.system.current_software)
-
-print('\n\n-------- test api 03 -------------')
--- apteryx_get("/system/interface/eth0/default_ttl")
-print(apteryx.system.interface("eth0").default_ttl)
-
-print('\n\n-------- test api 04 -------------')
-print(apteryx.system.interface("eth1").link_mtu)
-
-print('\n\n-------- test api 05 -------------')
-print(apteryx.system.interface("eth0").prefixes("01").prefix)
-
-print('\n\n-------- test api 06 -------------')
-t = apteryx.system.interface()
-for k,v in pairs(t) do
-    print(k,v)
-end
-
-print('\n\n-------- test api 07 -------------')
-t = apteryx.system.interface("eth0").prefixes()
-for k,v in pairs(t) do
-    print(k,v)
-end
-
-print('\n\n-------- test api 08 -------------')
-print(apteryx.system.interface("eth0").wa("02").haha("03").type)
-
-print('\n\n-------- test api 09 -------------')
-t = apteryx.system.interface("eth0").wa("02").haha()
-for k,v in pairs(t) do
-    print(k,v)
-end
-
-print('\n\n-------- test api 10 -------------')
-require("haha")
-print(apteryx.haha)
+-- apteryx_insert("/system/bootloader-version")
+-- apteryx_insert("/system/current-software")
+-- apteryx_insert("/system/current-version")
+-- apteryx_insert("/system/build-date")
+-- apteryx_insert("/system/system_name")
+-- apteryx_insert("/system/configuration/state", {["unknown"]="0",["saved"]="1",["unsaved"]="2"}, "0")
+-- apteryx_insert("/system/ram/total")
+-- apteryx_insert("/system/ram/free")
+-- apteryx_insert("/system/interface/*/link-mtu")
+-- apteryx_insert("/system/interface/*/default-ttl")
+-- apteryx_insert("/system/interface/*/prefixes/*/prefix")
+-- apteryx_insert("/system/interface/*/wa/*/haha/*/type")
+-- apteryx_insert("/system/flash/total")
+-- apteryx_insert("/system/flash/avaiable")
+--
+--
+--
+-- print('\n\n-------- test api 01 -------------')
+-- for k,v in pairs(apteryx) do
+--     print(k,v)
+-- end
+--
+-- print('\n\n-------- test api 02 -------------')
+-- print(apteryx.system.ram.free)
+-- print(apteryx.system.bootloader_version)
+-- print(apteryx.system.current_software)
+--
+-- print('\n\n-------- test api 03 -------------')
+-- -- apteryx_get("/system/interface/eth0/default_ttl")
+-- print(apteryx.system.interface("eth0").default_ttl)
+--
+-- print('\n\n-------- test api 04 -------------')
+-- print(apteryx.system.interface("eth1").link_mtu)
+--
+-- print('\n\n-------- test api 05 -------------')
+-- print(apteryx.system.interface("eth0").prefixes("01").prefix)
+--
+-- print('\n\n-------- test api 06 -------------')
+-- t = apteryx.system.interface()
+-- for k,v in pairs(t) do
+--     print(k,v)
+-- end
+--
+-- print('\n\n-------- test api 07 -------------')
+-- t = apteryx.system.interface("eth0").prefixes()
+-- for k,v in pairs(t) do
+--     print(k,v)
+-- end
+--
+-- print('\n\n-------- test api 08 -------------')
+-- print(apteryx.system.interface("eth0").wa("02").haha("03").type)
+--
+-- print('\n\n-------- test api 09 -------------')
+-- t = apteryx.system.interface("eth0").wa("02").haha()
+-- for k,v in pairs(t) do
+--     print(k,v)
+-- end
+--
+-- print('\n\n-------- test api 10 -------------')
+-- require("haha")
+-- print(apteryx.haha)
