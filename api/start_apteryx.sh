@@ -6,8 +6,8 @@ rm -fr /tmp/apteryx* ; killall -9 apteryxd ; LD_LIBRARY_PATH=.. ../apteryxd &
 
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:.."
 sleep 2
-../apteryx -s /system/bootloader-version 0.01
-../apteryx -s /system/current-software 5.4.6
+../apteryx -s /system/bootloader_version 0.01
+../apteryx -s /system/current_software 5.4.6
 ../apteryx -s /system/ram/free 520
 ../apteryx -s /system/ram/total 2000
 ../apteryx -s /system/interface/eth0/link_mtu 1500

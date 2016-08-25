@@ -54,9 +54,9 @@ local __apteryx = {
             path = replace_wildcard(path, path_parameters)
             path = string.gsub(path, "-", "_")
             apteryx_set(path, value)
-
+		else
+        	rawset(self, key, value)
 		end
-        rawset(self, key, value)
 	end,
 	__call = function(self, key, value)
 		if self["__"..key] ~= nil then
@@ -201,9 +201,8 @@ env = {apteryx_search = apteryx_search, apteryx_set = apteryx_set,
     }
 
 function __create_function(name, value, __insert_mode)
-    pp = G.path_parameters
-
     if __insert_mode == nil then
+		pp = G.path_parameters
         if name == nil then
 			local search_path = __get_search_path(mt, pp)
             local search = apteryx_search(search_path)
@@ -217,14 +216,14 @@ function __create_function(name, value, __insert_mode)
             apteryx_set(search_path..name, value)
             return
         end
-    end
 
-    -- reset the path_parameters table
-    if mt.depth == 1 then
-        pp = {}
+		-- reset the path_parameters table
+	    if mt.depth == 1 then
+	        pp = {}
+	    end
+	    table.insert(pp, name)
+	    G.path_parameters = pp
     end
-    table.insert(pp, name)
-    G.path_parameters = pp
 
     return mt
 end
@@ -284,7 +283,9 @@ function apteryx_insert(path, value, default)
 		else
 			parent[current_name] = current_node
 		end
+
         parent = current_node
+
         current_name, rest = splitpath(rest)
     end -- end of while current ~= '' do
 end
@@ -301,8 +302,8 @@ apteryx_insert("/system/interface/*/link-mtu")
 apteryx_insert("/system/interface/*/default-ttl")
 apteryx_insert("/system/interface/*/prefixes/*/prefix")
 apteryx_insert("/system/interface/*/wa/*/haha/*/type")
-apteryx_insert("system/flash/total")
-apteryx_insert("system/flash/avaiable")
+apteryx_insert("/system/flash/total")
+apteryx_insert("/system/flash/avaiable")
 
 
 
@@ -313,6 +314,8 @@ end
 
 print('\n\n-------- test api 02 -------------')
 print(apteryx.system.ram.free)
+print(apteryx.system.bootloader_version)
+print(apteryx.system.current_software)
 
 print('\n\n-------- test api 03 -------------')
 -- apteryx_get("/system/interface/eth0/default_ttl")
@@ -344,3 +347,7 @@ t = apteryx.system.interface("eth0").wa("02").haha()
 for k,v in pairs(t) do
     print(k,v)
 end
+
+print('\n\n-------- test api 10 -------------')
+require("haha")
+print(apteryx.haha)
