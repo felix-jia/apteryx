@@ -292,6 +292,7 @@ function apteryx_insert(path, value, default)
     end -- end of while current ~= '' do
 end
 
+-- os.execute("cat /proc/`pidof lua`/status")
 
 local f = io.popen("ls ./inserts")
 for mod in f:lines() do
@@ -305,6 +306,12 @@ print(apteryx.aaa.services)
 print(apteryx.radius)
 print(apteryx.web_control)
 print(apteryx.wireless_manager)
+-- os.execute("cat /proc/`pidof lua`/status")
+
+-- require("table_save")
+-- table.save(apteryx, "saved.lua")
+-- require("persistence")
+-- persistence.store("saved02.lua", apteryx)
 
 -- apteryx_insert("/system/bootloader-version")
 -- apteryx_insert("/system/current-software")
