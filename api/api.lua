@@ -307,6 +307,21 @@ print(apteryx.radius)
 print(apteryx.web_control)
 print(apteryx.wireless_manager)
 -- os.execute("cat /proc/`pidof lua`/status")
+t1 = os.clock()
+for i=1,10000 do
+	apteryx.test.list(i).name = 'private'
+end
+t2 = os.clock() - t1
+print("set time: "..t2.." sec")
+
+-- t1 = os.clock()
+-- for i=1,10000 do
+-- 	apteryx.system.ram.free = i
+-- 	x = apteryx.system.ram.free
+-- end
+-- t2 = os.clock() - t1
+-- print("set and get time: "..t2.." sec")
+
 
 -- require("table_save")
 -- table.save(apteryx, "saved.lua")
