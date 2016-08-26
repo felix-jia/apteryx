@@ -46,6 +46,7 @@ all: libapteryx.so apteryx apteryxd apteryx-sync alfred
 libapteryx.so: apteryx.pb-c.o rpc.o rpc_transport.o rpc_socket.o apteryx.o lua.o
 	@echo "Creating library "$@""
 	$(Q)$(CC) -shared $(LDFLAGS) -o $@ $^ $(EXTRA_LDFLAGS)
+#	@ln -s $@ apteryx.so
 
 %.o: %.c
 	@echo "Compiling "$<""
