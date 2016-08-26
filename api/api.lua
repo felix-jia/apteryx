@@ -1,3 +1,6 @@
+-- need to set the lua path on the box
+-- export LUA_PATH="./?.lua;/flash/api/inserts/?.lua;/usr/share/lua/?.lua;/var/packages/network/share/lua/?.lua"
+
 package.cpath = "../?.so;"..package.cpath
 
 require("libapteryx")
